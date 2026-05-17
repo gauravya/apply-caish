@@ -48,6 +48,11 @@ export default async function ApplicationDetailPage({
           <h1 className="mt-2 text-2xl font-semibold tracking-tight">
             {detail.project ?? "Application"}
           </h1>
+          {detail.mentorName ? (
+            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+              Mentor: {detail.mentorName}
+            </p>
+          ) : null}
           <dl className="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-sm text-zinc-600 dark:text-zinc-400">
             {detail.stream ? (
               <div className="flex gap-2">

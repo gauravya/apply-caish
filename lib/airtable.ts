@@ -28,6 +28,7 @@ export type ApplicationSummary = {
   submissionDate: string | null;
   decisionSentAt: string | null;
   project: string | null;
+  mentorName: string | null;
 };
 
 export type ApplicationDetail = ApplicationSummary & {
@@ -132,6 +133,7 @@ async function fetchSummaries(
   if (f.decisionSentAt)
     url.searchParams.append("fields[]", f.decisionSentAt);
   if (f.project) url.searchParams.append("fields[]", f.project);
+  if (f.mentorName) url.searchParams.append("fields[]", f.mentorName);
 
   const res = await fetch(url, {
     headers: { Authorization: `Bearer ${apiKey}` },
@@ -186,6 +188,7 @@ function summaryFromRecord(
         ? getString(record.fields, f.decisionSentAt)
         : null,
     project: f.project ? getString(record.fields, f.project) : null,
+    mentorName: f.mentorName ? getString(record.fields, f.mentorName) : null,
   };
 }
 

@@ -116,6 +116,11 @@ export default async function DashboardPage() {
                                           Application
                                         </p>
                                       )}
+                                      {app.mentorName ? (
+                                        <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
+                                          Mentor: {app.mentorName}
+                                        </p>
+                                      ) : null}
                                       {app.submissionDate ? (
                                         <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-0.5">
                                           Submitted {app.submissionDate}

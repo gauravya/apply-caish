@@ -35,6 +35,8 @@ export type StageFieldMap = {
   decisionSentAt?: string;
   /** field holding the mentor project name (Stage 2 only) */
   project?: string;
+  /** field holding the mentor name (Stage 2 only) */
+  mentorName?: string;
   /**
    * Fields to render as the applicant's submitted content on the detail page.
    * Order is preserved in the UI.
@@ -107,14 +109,10 @@ export const programmes: Programme[] = [
           submissionDate: "Submission Date",
           decisionSentAt: "Decision Sent At",
           project: "Mentor Project",
+          mentorName: "Mentor Name",
           contentFields: [
-            { label: "Project Response", field: "Project Response" },
-            {
-              label: "Three Impressive Achievements",
-              field: "Three Impressive Achievements",
-            },
-            { label: "AIS Experience", field: "AIS Experience" },
-            { label: "Hours Justification", field: "Hours Justification" },
+            { label: "Mentor's questions", field: "Applicant Questions" },
+            { label: "Your response", field: "Project Response" },
           ],
         },
       },
