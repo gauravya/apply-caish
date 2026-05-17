@@ -64,3 +64,12 @@ export const verificationTokens = pgTable(
     primaryKey({ columns: [vt.identifier, vt.token] }),
   ],
 );
+
+// Fixed-window rate limit buckets. Key format: `<action>:<dimension>:<value>`,
+// e.g. `signin:email:foo@example.com`, `signin:ip:1.2.3.4`. Resets when
+// (now - window_start) > window duration.
+export const rateLimitBuckets = pgTable("rate_limit_buckets", {
+  key: text("key").primaryKey(),
+  windowStart: timestamp("window_start", { mode: "date" }).notNull(),
+  count: integer("count").notNull().default(0),
+});
