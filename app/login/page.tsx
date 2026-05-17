@@ -43,33 +43,42 @@ export default async function LoginPage({
 }) {
   const { error } = await searchParams;
   return (
-    <main className="flex-1 flex flex-col items-center justify-center px-6 py-24">
-      <div className="w-full max-w-md">
-        <h1 className="text-2xl font-semibold tracking-tight">Sign in</h1>
-        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-          Enter the email you applied with. We&apos;ll send you a link to sign in.
-        </p>
-        {error === "invalid" ? (
-          <p className="mt-3 text-sm text-red-600 dark:text-red-400">
-            Please enter a valid email address.
-          </p>
-        ) : null}
-        <form action={loginAction} className="mt-8 flex flex-col gap-3">
+    <main className="wrap">
+      <h1>Sign in</h1>
+      <p>
+        Enter the email you applied with. We will send you a link to sign in.
+      </p>
+
+      {error === "invalid" ? (
+        <p>Error: please enter a valid email address.</p>
+      ) : null}
+
+      <form action={loginAction}>
+        <p>
+          <label htmlFor="email">Email: </label>
           <input
+            id="email"
             type="email"
             name="email"
             placeholder="you@example.com"
             required
             autoComplete="email"
-            className="w-full rounded-md border border-zinc-300 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-100"
+            size={32}
           />
-          <SubmitButton label="Send sign-in link" />
-        </form>
-        <p className="mt-6 text-xs text-zinc-500 dark:text-zinc-500">
-          The link will arrive in your inbox and is valid for 15 minutes. Check
-          your spam folder if you don&apos;t see it.
         </p>
-      </div>
+        <p>
+          <SubmitButton label="Send sign-in link" />
+        </p>
+      </form>
+
+      <p>
+        The link will arrive in your inbox and is valid for 15 minutes. Check
+        your spam folder if you do not see it.
+      </p>
+
+      <footer className="page">
+        <a href="/">Home</a> &middot; <a href="/privacy">Privacy</a>
+      </footer>
     </main>
   );
 }

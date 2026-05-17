@@ -32,31 +32,27 @@ export default async function ErrorPage({
   };
 
   return (
-    <main className="flex-1 flex flex-col items-center justify-center px-6 py-24">
-      <div className="w-full max-w-md text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          {message.title}
-        </h1>
-        <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-400">
-          {message.body}
-        </p>
-        <Link
-          href="/login"
-          className="mt-8 inline-block rounded-md bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 px-4 py-2 text-sm font-medium hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors"
-        >
-          Request a new sign-in link
-        </Link>
-        <p className="mt-8 text-xs text-zinc-500 dark:text-zinc-500">
-          Still stuck? Email{" "}
-          <a
-            className="underline underline-offset-2 hover:text-zinc-900 dark:hover:text-zinc-100"
-            href="mailto:hello@cambridgeaisafety.org"
-          >
-            hello@cambridgeaisafety.org
-          </a>
-          .
-        </p>
-      </div>
+    <main className="wrap">
+      <h1>{message.title}</h1>
+      <p>{message.body}</p>
+
+      <p>
+        <Link href="/login">Request a new sign-in link</Link>
+      </p>
+
+      <hr />
+
+      <p>
+        Still stuck? Email{" "}
+        <a href="mailto:hello@cambridgeaisafety.org">
+          hello@cambridgeaisafety.org
+        </a>
+        .
+      </p>
+
+      <footer className="page">
+        <a href="/">Home</a> &middot; <a href="/privacy">Privacy</a>
+      </footer>
     </main>
   );
 }

@@ -1,26 +1,124 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Style D: anti-website / brutalist.
+ *
+ * Premise: a 1996 browser should render this correctly.
+ * System fonts, default link colours, raw text. No decoration.
+ * Body content caps at 60ch. That is the whole design system.
+ */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: #fff;
+  color: #000;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container: 60ch max, left-aligned, breathing room top/bottom. */
+.wrap {
+  max-width: 60ch;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+}
+
+/* Headings: default-ish sizing, slight margin tweaks. No tracking, no
+ * uppercase, no fancy weights. */
+h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 0 0.25rem;
+}
+h2 {
+  font-size: 1.15rem;
+  font-weight: bold;
+  margin: 1.75rem 0 0.25rem;
+}
+h3 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 1.25rem 0 0.25rem;
+}
+
+p {
+  margin: 0.5rem 0;
+}
+
+ul,
+ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+li {
+  margin: 0.15rem 0;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #000;
+  margin: 2rem 0;
+}
+
+/* Links: default browser colours. Blue unvisited, purple visited.
+ * Underlined. We do not fight this. */
+a {
+  color: -webkit-link;
+}
+a:visited {
+  color: -webkit-link;
+}
+
+/* Forms: as the browser ships them. We pad a touch so they aren't cramped. */
+input,
+button,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 1rem;
+}
+input[type="email"],
+input[type="text"],
+textarea {
+  padding: 0.25rem 0.4rem;
+}
+button {
+  padding: 0.25rem 0.75rem;
+}
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+dl {
+  margin: 0.5rem 0;
+}
+dl.inline div {
+  margin: 0.15rem 0;
+}
+
+code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.95em;
+}
+
+footer.page {
+  margin-top: 3rem;
+  font-size: 0.85rem;
+}
+
+/* Dark mode: pure white on pure black. Default link colours stay. */
+@media (prefers-color-scheme: dark) {
+  html {
+    background: #000;
+    color: #fff;
+  }
+  hr {
+    border-top-color: #fff;
+  }
 }

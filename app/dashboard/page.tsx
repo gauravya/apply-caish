@@ -21,7 +21,10 @@ export default async function DashboardPage() {
   // Group by programme, then by stage. Preserve order from the registry.
   const byProgramme = new Map<
     string,
-    { displayName: string; stages: Map<string, { displayName: string; rows: ApplicationSummary[] }> }
+    {
+      displayName: string;
+      stages: Map<string, { displayName: string; rows: ApplicationSummary[] }>;
+    }
   >();
   for (const a of apps) {
     if (!byProgramme.has(a.programmeSlug)) {
@@ -41,154 +44,95 @@ export default async function DashboardPage() {
   }
 
   return (
-    <main className="flex-1 flex flex-col px-6 py-16">
-      <div className="w-full max-w-2xl mx-auto">
-        <header className="flex items-baseline justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight">
-              Your applications
-            </h1>
-            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-              Signed in as <span className="font-medium">{email}</span>
-            </p>
-          </div>
-          <form
-            action={async () => {
-              "use server";
-              await signOut({ redirectTo: "/" });
+    <main className="wrap">
+      <h1>Your applications</h1>
+      <p>
+        Signed in as {email}.{" "}
+        <form
+          action={async () => {
+            "use server";
+            await signOut({ redirectTo: "/" });
+          }}
+          style={{ display: "inline" }}
+        >
+          <button
+            type="submit"
+            style={{
+              background: "none",
+              border: 0,
+              padding: 0,
+              color: "-webkit-link",
+              textDecoration: "underline",
+              cursor: "pointer",
+              font: "inherit",
             }}
           >
-            <button
-              type="submit"
-              className="text-sm text-zinc-600 dark:text-zinc-400 underline underline-offset-2 hover:text-zinc-900 dark:hover:text-zinc-100"
-            >
-              Sign out
-            </button>
-          </form>
-        </header>
+            Sign out
+          </button>
+        </form>
+        .
+      </p>
 
-        <section className="mt-10">
-          {byProgramme.size === 0 ? (
-            <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 p-8 text-center">
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                We don&apos;t have any applications on file for this email.
-              </p>
-              <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-500">
-                If you think this is a mistake, email{" "}
-                <a
-                  className="underline underline-offset-2 hover:text-zinc-900 dark:hover:text-zinc-100"
-                  href="mailto:hello@cambridgeaisafety.org"
-                >
-                  hello@cambridgeaisafety.org
-                </a>
-                .
-              </p>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-10">
-              {Array.from(byProgramme.entries()).map(([progSlug, prog]) => (
-                <section key={progSlug}>
-                  <h2 className="text-xs uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-500">
-                    {prog.displayName}
-                  </h2>
-                  <div className="mt-3 flex flex-col gap-6">
-                    {Array.from(prog.stages.entries()).map(
-                      ([stageId, stage]) => (
-                        <div key={stageId}>
-                          <h3 className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                            {stage.displayName}
-                          </h3>
-                          <ul className="mt-2 flex flex-col gap-3">
-                            {stage.rows.map((app) => (
-                              <li key={app.recordId}>
-                                <Link
-                                  href={`/dashboard/${app.programmeSlug}/${app.stageId}/${app.recordId}`}
-                                  className="block rounded-lg border border-zinc-200 dark:border-zinc-800 p-4 hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors"
-                                >
-                                  <div className="flex items-baseline justify-between gap-4">
-                                    <div>
-                                      {app.project ? (
-                                        <p className="text-sm font-medium">
-                                          {app.project}
-                                        </p>
-                                      ) : (
-                                        <p className="text-sm font-medium">
-                                          Application
-                                        </p>
-                                      )}
-                                      {app.mentorName ? (
-                                        <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
-                                          Mentor: {app.mentorName}
-                                        </p>
-                                      ) : null}
-                                      {app.submissionDate ? (
-                                        <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-0.5">
-                                          Submitted {app.submissionDate}
-                                        </p>
-                                      ) : null}
-                                    </div>
-                                    <div className="flex items-center gap-2 flex-shrink-0">
-                                      {app.stream ? (
-                                        <span className="text-xs rounded-full px-2 py-0.5 bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300">
-                                          {app.stream}
-                                        </span>
-                                      ) : null}
-                                      <DecisionBadge
-                                        decision={app.decision}
-                                      />
-                                    </div>
-                                  </div>
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ),
-                    )}
-                  </div>
-                </section>
-              ))}
-            </div>
-          )}
-        </section>
+      <hr />
 
-        <footer className="mt-16 text-xs text-zinc-500 dark:text-zinc-500">
-          Data refreshes every 60 seconds. For anything urgent, email{" "}
-          <a
-            className="underline underline-offset-2 hover:text-zinc-900 dark:hover:text-zinc-100"
-            href="mailto:hello@cambridgeaisafety.org"
-          >
-            hello@cambridgeaisafety.org
-          </a>
-          .
-        </footer>
-      </div>
+      {byProgramme.size === 0 ? (
+        <>
+          <p>We do not have any applications on file for this email.</p>
+          <p>
+            If you think this is a mistake, email{" "}
+            <a href="mailto:hello@cambridgeaisafety.org">
+              hello@cambridgeaisafety.org
+            </a>
+            .
+          </p>
+        </>
+      ) : (
+        Array.from(byProgramme.entries()).map(([progSlug, prog]) => (
+          <section key={progSlug}>
+            <h2>{prog.displayName}</h2>
+            {Array.from(prog.stages.entries()).map(([stageId, stage]) => (
+              <div key={stageId}>
+                <h3>{stage.displayName}</h3>
+                <ul>
+                  {stage.rows.map((app) => (
+                    <li key={app.recordId}>
+                      <Link
+                        href={`/dashboard/${app.programmeSlug}/${app.stageId}/${app.recordId}`}
+                      >
+                        {app.project ?? "Application"}
+                      </Link>
+                      {app.stream ? <> &middot; Stream: {app.stream}</> : null}
+                      {app.mentorName ? (
+                        <> &middot; Mentor: {app.mentorName}</>
+                      ) : null}
+                      {app.submissionDate ? (
+                        <> &middot; Submitted {app.submissionDate}</>
+                      ) : null}
+                      {" "}
+                      <DecisionTag decision={app.decision} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </section>
+        ))
+      )}
+
+      <hr />
+
+      <footer className="page">
+        Data refreshes every 60 seconds. For anything urgent, email{" "}
+        <a href="mailto:hello@cambridgeaisafety.org">
+          hello@cambridgeaisafety.org
+        </a>
+        . <Link href="/privacy">Privacy</Link>.
+      </footer>
     </main>
   );
 }
 
-function DecisionBadge({ decision }: { decision: string | null }) {
-  if (!decision) {
-    return (
-      <span className="text-xs rounded-full px-2 py-0.5 bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400">
-        Under review
-      </span>
-    );
-  }
-  const lower = decision.toLowerCase();
-  let cls = "bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300";
-  if (lower.startsWith("accept")) {
-    cls =
-      "bg-green-100 dark:bg-green-950 text-green-800 dark:text-green-300";
-  } else if (lower.startsWith("reject")) {
-    cls = "bg-red-100 dark:bg-red-950 text-red-800 dark:text-red-300";
-  } else if (lower.startsWith("waitlist")) {
-    cls =
-      "bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300";
-  }
-  return (
-    <span className={`text-xs rounded-full px-2 py-0.5 ${cls}`}>
-      {decision}
-    </span>
-  );
+function DecisionTag({ decision }: { decision: string | null }) {
+  const label = decision ?? "Under review";
+  return <span>[{label.toUpperCase()}]</span>;
 }
