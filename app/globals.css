@@ -1,97 +1,139 @@
 @import "tailwindcss";
 
-/* Style D: anti-website / brutalist.
+/* Style D: anti-website with a little polish.
  *
- * Premise: a 1996 browser should render this correctly.
- * System fonts, default link colours, raw text. No decoration.
- * Body content caps at 60ch. That is the whole design system.
+ * Premise: a 1996 browser should still render this correctly. System fonts,
+ * default link colours, semantic HTML. The polish: slightly larger comfortable
+ * body width, near-black instead of pure-black, near-white instead of pure-
+ * white, proper focus rings, subtle link hover. Nothing decorative.
  */
 
 html {
-  background: #fff;
-  color: #000;
+  background: #fdfdfb;
+  color: #1a1a1a;
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
     sans-serif;
-  font-size: 16px;
-  line-height: 1.55;
+  font-size: 17px;
+  line-height: 1.6;
   margin: 0;
   padding: 0;
+  font-variant-numeric: tabular-nums;
 }
 
-/* Container: 60ch max, left-aligned, breathing room top/bottom. */
+/* Body container. 65ch is the sweet spot for prose readability without
+ * feeling cramped. */
 .wrap {
-  max-width: 60ch;
+  max-width: 65ch;
   margin: 0 auto;
-  padding: 2rem 1rem 4rem;
+  padding: 2.5rem 1.25rem 4rem;
 }
 
-/* Headings: default-ish sizing, slight margin tweaks. No tracking, no
- * uppercase, no fancy weights. */
+/* Headings: weights drop with depth. Not all bold. Tighter top-margin under
+ * page H1, more breath before H2/H3 so sections feel earned. */
 h1 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin: 0 0 0.25rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 0.35rem;
+  letter-spacing: -0.005em;
 }
 h2 {
-  font-size: 1.15rem;
-  font-weight: bold;
-  margin: 1.75rem 0 0.25rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 2rem 0 0.4rem;
 }
 h3 {
   font-size: 1rem;
-  font-weight: bold;
-  margin: 1.25rem 0 0.25rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.3rem;
 }
 
 p {
-  margin: 0.5rem 0;
+  margin: 0.6rem 0;
 }
 
 ul,
 ol {
-  margin: 0.5rem 0;
+  margin: 0.6rem 0;
   padding-left: 1.5rem;
 }
 li {
-  margin: 0.15rem 0;
+  margin: 0.2rem 0;
+}
+li > p {
+  margin: 0.2rem 0;
 }
 
 hr {
   border: 0;
-  border-top: 1px solid #000;
+  border-top: 1px solid #d4d4d2;
   margin: 2rem 0;
 }
 
-/* Links: default browser colours. Blue unvisited, purple visited.
- * Underlined. We do not fight this. */
+/* Links: default browser colours, underlined. Subtle hover to acknowledge
+ * the cursor without being designed. */
 a {
   color: -webkit-link;
+  transition: opacity 0.1s;
 }
 a:visited {
   color: -webkit-link;
 }
+a:hover {
+  opacity: 0.7;
+}
+a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 1px;
+}
 
-/* Forms: as the browser ships them. We pad a touch so they aren't cramped. */
+/* Forms: still recognisably default, but with comfortable padding and a
+ * visible border so they don't look broken on every OS. */
 input,
 button,
 select,
 textarea {
   font-family: inherit;
   font-size: 1rem;
+  line-height: 1.4;
 }
 input[type="email"],
 input[type="text"],
 textarea {
-  padding: 0.25rem 0.4rem;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid #b8b8b6;
+  background: #fff;
+  border-radius: 0;
+}
+input[type="email"]:focus,
+input[type="text"]:focus,
+textarea:focus {
+  outline: 2px solid #1a1a1a;
+  outline-offset: -1px;
+  border-color: #1a1a1a;
 }
 button {
-  padding: 0.25rem 0.75rem;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid #1a1a1a;
+  background: #1a1a1a;
+  color: #fdfdfb;
+  border-radius: 0;
+  cursor: pointer;
+}
+button:hover {
+  opacity: 0.85;
+}
+button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 button[disabled] {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: not-allowed;
 }
 
@@ -99,26 +141,108 @@ dl {
   margin: 0.5rem 0;
 }
 dl.inline div {
-  margin: 0.15rem 0;
+  margin: 0.2rem 0;
+}
+dl.inline strong {
+  font-weight: 600;
 }
 
 code {
   font-family: ui-monospace, Menlo, Consolas, monospace;
   font-size: 0.95em;
+  background: rgba(0, 0, 0, 0.04);
+  padding: 0.05em 0.3em;
+  border-radius: 2px;
 }
+
+/* Decision tag: bracketed monospace-ish marker. Sentence case, not SHOUTING.
+ * Subtle colour shift for terminal states. */
+.tag {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+.tag-accept { color: #1f6e2f; }
+.tag-reject { color: #8a1f1f; }
+.tag-waitlist { color: #8a5a1f; }
+.tag-pending { color: #6b6b69; }
 
 footer.page {
   margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ececea;
   font-size: 0.85rem;
+  color: #6b6b69;
+}
+footer.page a {
+  color: #6b6b69;
 }
 
-/* Dark mode: pure white on pure black. Default link colours stay. */
+/* Sign-out: a real button that looks like a link, no inline-style hacks. */
+.linkish {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: -webkit-link;
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+  transition: opacity 0.1s;
+}
+.linkish:hover {
+  opacity: 0.7;
+}
+
+/* Subtle selection colour, considered choice instead of system default. */
+::selection {
+  background: #1a1a1a;
+  color: #fdfdfb;
+}
+
+/* Dark mode: not pure black on pure white. Easier on the eyes at night,
+ * still uncompromisingly minimal. */
 @media (prefers-color-scheme: dark) {
   html {
-    background: #000;
-    color: #fff;
+    background: #0d0d0d;
+    color: #e8e8e6;
   }
   hr {
-    border-top-color: #fff;
+    border-top-color: #2a2a28;
+  }
+  footer.page {
+    color: #888;
+    border-top-color: #2a2a28;
+  }
+  footer.page a {
+    color: #888;
+  }
+  input[type="email"],
+  input[type="text"],
+  textarea {
+    background: #1a1a1a;
+    border-color: #3a3a38;
+    color: #e8e8e6;
+  }
+  input[type="email"]:focus,
+  input[type="text"]:focus,
+  textarea:focus {
+    outline-color: #e8e8e6;
+    border-color: #e8e8e6;
+  }
+  button {
+    background: #e8e8e6;
+    color: #0d0d0d;
+    border-color: #e8e8e6;
+  }
+  code {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .tag-accept { color: #6bc77d; }
+  .tag-reject { color: #d97676; }
+  .tag-waitlist { color: #d4a64f; }
+  .tag-pending { color: #888; }
+  ::selection {
+    background: #e8e8e6;
+    color: #0d0d0d;
   }
 }

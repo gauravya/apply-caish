@@ -55,18 +55,7 @@ export default async function DashboardPage() {
           }}
           style={{ display: "inline" }}
         >
-          <button
-            type="submit"
-            style={{
-              background: "none",
-              border: 0,
-              padding: 0,
-              color: "-webkit-link",
-              textDecoration: "underline",
-              cursor: "pointer",
-              font: "inherit",
-            }}
-          >
+          <button type="submit" className="linkish">
             Sign out
           </button>
         </form>
@@ -101,7 +90,7 @@ export default async function DashboardPage() {
                       >
                         {app.project ?? "Application"}
                       </Link>
-                      {app.stream ? <> &middot; Stream: {app.stream}</> : null}
+                      {app.stream ? <> &middot; {app.stream}</> : null}
                       {app.mentorName ? (
                         <> &middot; Mentor: {app.mentorName}</>
                       ) : null}
@@ -133,6 +122,11 @@ export default async function DashboardPage() {
 }
 
 function DecisionTag({ decision }: { decision: string | null }) {
-  const label = decision ?? "Under review";
-  return <span>[{label.toUpperCase()}]</span>;
+  if (!decision) return <span className="tag tag-pending">[Under review]</span>;
+  const lower = decision.toLowerCase();
+  let cls = "tag-pending";
+  if (lower.startsWith("accept")) cls = "tag-accept";
+  else if (lower.startsWith("reject")) cls = "tag-reject";
+  else if (lower.startsWith("waitlist")) cls = "tag-waitlist";
+  return <span className={`tag ${cls}`}>[{decision}]</span>;
 }
