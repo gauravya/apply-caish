@@ -25,11 +25,11 @@ export default async function ErrorPage({
   searchParams: Promise<{ error?: string }>;
 }) {
   const { error } = await searchParams;
-  const message =
-    (error && ERROR_MESSAGES[error]) ?? {
-      title: "Something went wrong",
-      body: "An unexpected error occurred during sign-in. Try requesting a new link.",
-    };
+  const known = error ? ERROR_MESSAGES[error] : undefined;
+  const message = known ?? {
+    title: "Something went wrong",
+    body: "An unexpected error occurred during sign-in. Try requesting a new link.",
+  };
 
   return (
     <main className="flex-1 flex flex-col items-center justify-center px-6 py-24">
