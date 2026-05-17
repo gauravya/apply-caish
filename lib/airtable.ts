@@ -200,3 +200,90 @@ function getString(
   if (v == null || v === "") return null;
   return String(v);
 }
+
+/**
+ * GDPR-safe delete. Removes:
+ *   - All Airtable rows in all programmes/stages where the email matches
+ *   - All decision_sends log entries for that email
+ *   - All auth tokens, sessions, and users for that email (cascade)
+ *
+ * Returns counts so the caller can audit. Throws on the first programme
+ * that fails — partial deletes are preferred to silent skips so the caller
+ * can retry.
+ */
+export async function deleteByEmail(email: string): Promise<{
+  airtableDeleted: number;
+  decisionSendsDeleted: number;
+  authRowsDeleted: number;
+}> {
+  if (!email) throw new Error("email required");
+  const lower = email.trim().toLowerCase();
+
+  // 1. Airtable: scan each programme/stage, find records matching email, batch-delete
+  let airtableDeleted = 0;
+  for (const p of programmes) {
+    for (const s of p.stages) {
+      const apiKey = getProgrammeApiKey(p);
+      const f = s.fields;
+      const formula = `LOWER({${f.email}})="${lower.replace(/"/g, '\\"')}"`;
+
+      // List matching records (we only need ids)
+      const listUrl = new URL(
+        `https://api.airtable.com/v0/${p.airtable.baseId}/${encodeURIComponent(s.tableName)}`,
+      );
+      listUrl.searchParams.set("filterByFormula", formula);
+      listUrl.searchParams.set("fields[]", f.email);
+      listUrl.searchParams.set("pageSize", "100");
+
+      const listRes = await fetch(listUrl, {
+        headers: { Authorization: `Bearer ${apiKey}` },
+        cache: "no-store",
+      });
+      if (!listRes.ok) {
+        throw new Error(
+          `deleteByEmail list failed for ${p.slug}/${s.id}: HTTP ${listRes.status}`,
+        );
+      }
+      const data: { records: Array<{ id: string }> } = await listRes.json();
+      if (data.records.length === 0) continue;
+
+      // Batch delete (10 per call)
+      const ids = data.records.map((r) => r.id);
+      for (let i = 0; i < ids.length; i += 10) {
+        const batch = ids.slice(i, i + 10);
+        const delUrl = new URL(
+          `https://api.airtable.com/v0/${p.airtable.baseId}/${encodeURIComponent(s.tableName)}`,
+        );
+        for (const id of batch) delUrl.searchParams.append("records[]", id);
+        const delRes = await fetch(delUrl, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${apiKey}` },
+        });
+        if (!delRes.ok) {
+          throw new Error(
+            `deleteByEmail delete failed for ${p.slug}/${s.id}: HTTP ${delRes.status}`,
+          );
+        }
+        airtableDeleted += batch.length;
+      }
+    }
+  }
+
+  // 2. Postgres: decision_sends + auth tables
+  const { db: pgDb } = await import("@/db/client");
+  const { sql } = await import("drizzle-orm");
+
+  const decisionSendsResult = await pgDb.execute(sql`
+    DELETE FROM decision_sends WHERE LOWER(email_to) = ${lower}
+  `);
+  const authResult = await pgDb.execute(sql`
+    DELETE FROM "user" WHERE LOWER(email) = ${lower}
+  `);
+  // 'user' has ON DELETE CASCADE to account/session, so those go too.
+
+  return {
+    airtableDeleted,
+    decisionSendsDeleted: Number(decisionSendsResult.rowCount ?? 0),
+    authRowsDeleted: Number(authResult.rowCount ?? 0),
+  };
+}
