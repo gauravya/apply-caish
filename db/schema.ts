@@ -73,3 +73,21 @@ export const rateLimitBuckets = pgTable("rate_limit_buckets", {
   windowStart: timestamp("window_start", { mode: "date" }).notNull(),
   count: integer("count").notNull().default(0),
 });
+
+// Idempotency log for decision emails. The UNIQUE constraint on
+// (programme_slug, stage_id, record_id, decision_value) means each unique
+// decision per row gets exactly one email — even if the cron fires twice
+// or the admin un-ticks and re-ticks Decision sent without changing the
+// value. A NEW value on the same row produces a new row here (and a new email).
+export const decisionSends = pgTable("decision_sends", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  programmeSlug: text("programme_slug").notNull(),
+  stageId: text("stage_id").notNull(),
+  recordId: text("record_id").notNull(),
+  decisionValue: text("decision_value").notNull(),
+  emailTo: text("email_to").notNull(),
+  sentAt: timestamp("sent_at", { mode: "date" }).notNull().defaultNow(),
+  resendMessageId: text("resend_message_id"),
+});
