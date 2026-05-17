@@ -1,4 +1,5 @@
 import { signIn } from "@/lib/auth";
+import { SubmitButton } from "./_submit-button";
 
 export const metadata = {
   title: "Sign in – CAISH Applications",
@@ -29,12 +30,7 @@ export default function LoginPage() {
             autoComplete="email"
             className="w-full rounded-md border border-zinc-300 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-100"
           />
-          <button
-            type="submit"
-            className="w-full rounded-md bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 px-3 py-2 text-sm font-medium hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors"
-          >
-            Send sign-in link
-          </button>
+          <SubmitButton label="Send sign-in link" />
         </form>
         <p className="mt-6 text-xs text-zinc-500 dark:text-zinc-500">
           The link will arrive in your inbox and is valid for 15 minutes. Check
