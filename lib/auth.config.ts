@@ -10,6 +10,7 @@ export const authConfig = {
   pages: {
     signIn: "/login",
     verifyRequest: "/login/check-email",
+    error: "/login/error",
   },
   session: {
     strategy: "jwt",
