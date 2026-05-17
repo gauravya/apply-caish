@@ -95,6 +95,8 @@ export async function getApplicationDetail(
   // Security: only return the record if its email matches the session.
   if (!recordEmail || recordEmail !== lower) return null;
 
+  // Detail page also respects the Decision sent gate (summary handles this
+  // already, but be explicit so the content + decision are consistent).
   return {
     ...summaryFromRecord(programme, stage, record),
     content: f.contentFields.map((cf) => ({
@@ -124,6 +126,7 @@ async function fetchSummaries(
   url.searchParams.append("fields[]", f.email);
   if (f.stream) url.searchParams.append("fields[]", f.stream);
   if (f.decision) url.searchParams.append("fields[]", f.decision);
+  if (f.decisionSent) url.searchParams.append("fields[]", f.decisionSent);
   if (f.submissionDate)
     url.searchParams.append("fields[]", f.submissionDate);
   if (f.decisionSentAt)
@@ -155,6 +158,16 @@ function summaryFromRecord(
   record: { id: string; fields: Record<string, unknown> },
 ): ApplicationSummary {
   const f = stage.fields;
+  // Gate decision visibility behind the Decision sent checkbox. Until an
+  // admin explicitly ticks it, the applicant sees "Under review" even if a
+  // value has been set in the Decision field. Lets admins change their mind
+  // in Airtable without leaking premature decisions.
+  const isPublished = f.decisionSent
+    ? Boolean(record.fields[f.decisionSent])
+    : true;
+  const rawDecision = f.decision
+    ? getString(record.fields, f.decision)
+    : null;
   return {
     programmeSlug: programme.slug,
     programmeDisplayName: programme.displayName,
@@ -164,13 +177,14 @@ function summaryFromRecord(
     name: getString(record.fields, f.name),
     email: getString(record.fields, f.email) ?? "",
     stream: f.stream ? getString(record.fields, f.stream) : null,
-    decision: f.decision ? getString(record.fields, f.decision) : null,
+    decision: isPublished ? rawDecision : null,
     submissionDate: f.submissionDate
       ? getString(record.fields, f.submissionDate)
       : null,
-    decisionSentAt: f.decisionSentAt
-      ? getString(record.fields, f.decisionSentAt)
-      : null,
+    decisionSentAt:
+      isPublished && f.decisionSentAt
+        ? getString(record.fields, f.decisionSentAt)
+        : null,
     project: f.project ? getString(record.fields, f.project) : null,
   };
 }

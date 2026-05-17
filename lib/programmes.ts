@@ -22,6 +22,13 @@ export type StageFieldMap = {
   stream?: string;
   /** field holding the decision (Accept/Reject/Waitlist/...) */
   decision?: string;
+  /**
+   * Checkbox field gating whether the decision is published to the applicant.
+   * If set, the dashboard shows the decision; if unset, applicant sees
+   * "Under review" regardless of what's in the decision field. Lets admins
+   * change their mind in Airtable without leaking to applicants.
+   */
+  decisionSent?: string;
   /** field holding when the application was submitted */
   submissionDate?: string;
   /** field holding when the decision was sent to the applicant */
@@ -74,6 +81,7 @@ export const programmes: Programme[] = [
           email: "Email",
           stream: "Stream Type",
           decision: "Decision",
+          decisionSent: "Decision sent",
           submissionDate: "Submission Date",
           contentFields: [
             { label: "Why MARS?", field: "Why MARS?" },
@@ -95,6 +103,7 @@ export const programmes: Programme[] = [
           email: "Email",
           stream: "Stream Type",
           decision: "Decision",
+          decisionSent: "Decision sent",
           submissionDate: "Submission Date",
           decisionSentAt: "Decision Sent At",
           project: "Mentor Project",
