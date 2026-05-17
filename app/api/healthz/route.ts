@@ -59,8 +59,9 @@ async function checkAirtable(): Promise<CheckResult> {
     };
   }
   try {
-    // List bases endpoint — cheapest authenticated call.
-    const res = await fetch("https://api.airtable.com/v0/meta/bases?pageSize=1", {
+    // List bases — cheapest authenticated call. The endpoint doesn't accept
+    // pageSize; we just take whatever default page Airtable returns.
+    const res = await fetch("https://api.airtable.com/v0/meta/bases", {
       headers: { Authorization: `Bearer ${key}` },
       cache: "no-store",
     });
@@ -83,26 +84,35 @@ async function checkAirtable(): Promise<CheckResult> {
 async function checkResend(): Promise<CheckResult> {
   const start = Date.now();
   const key = process.env.RESEND_API_KEY;
-  if (!key) {
+  if (!key || !key.startsWith("re_")) {
     return {
       name: "resend",
       ok: false,
       durationMs: 0,
-      error: "RESEND_API_KEY not set",
+      error: "RESEND_API_KEY missing or malformed",
     };
   }
   try {
-    // GET /domains is a cheap authenticated call. We don't actually need the
-    // body; just confirming the API responds with 200 and the key works.
-    const res = await fetch("https://api.resend.com/domains", {
-      headers: { Authorization: `Bearer ${key}` },
+    // POST /emails with intentionally-empty body. If the key is valid we get
+    // 422 (validation error — body is bad). If the key is invalid we get 401.
+    // Either way, we never actually send an email — the request fails at
+    // validation before delivery is attempted. Anything other than 401 means
+    // the API is reachable and the key authenticates correctly.
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${key}`,
+        "Content-Type": "application/json",
+      },
+      body: "{}",
       cache: "no-store",
     });
+    const ok = res.status !== 401 && res.status < 500;
     return {
       name: "resend",
-      ok: res.ok,
+      ok,
       durationMs: Date.now() - start,
-      error: res.ok ? undefined : `HTTP ${res.status}`,
+      error: ok ? undefined : `HTTP ${res.status}`,
     };
   } catch (e) {
     return {
