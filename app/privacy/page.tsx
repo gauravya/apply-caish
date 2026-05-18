@@ -10,10 +10,10 @@ export default function PrivacyPage() {
 
       <h2>Who we are</h2>
       <p>
-        Cambridge AI Safety Hub (CAISH) is a Cambridge-based non-profit running
-        programmes (MARS, HVP, internships) for early-career AI safety
-        researchers. We run this applications portal at{" "}
-        <code>application.caish.org</code>.
+        Cambridge AI Safety Hub (CAISH) is a project of Meridian (a UK
+        Community Interest Company) running programmes (MARS, HVP,
+        internships) for early-career AI safety researchers. We run this
+        applications portal at <code>application.caish.org</code>.
       </p>
 
       <h2>What we store</h2>
