@@ -1,68 +1,94 @@
 @import "tailwindcss";
 
-/* Style D: anti-website with a little polish.
+/* Anti-website, composed.
  *
- * Premise: a 1996 browser should still render this correctly. System fonts,
- * default link colours, semantic HTML. The polish: slightly larger comfortable
- * body width, near-black instead of pure-black, near-white instead of pure-
- * white, proper focus rings, subtle link hover. Nothing decorative.
+ * Still simple semantic HTML that a 1996 browser renders fine. The polish is
+ * entirely typographic: a real type scale, typeset links (not browser-blue),
+ * comfortable measure, consistent vertical rhythm, and a calm palette. No
+ * component libraries, no decoration — just a well-set document.
+ *
+ * Palette tokens (kept inline; one file, easy to scan):
+ *   ink      #1a1a1a   body text
+ *   paper    #fcfcfa   background
+ *   muted    #6b6b69   secondary text, captions
+ *   rule     #e3e1dc   hairlines
+ *   link u/l #c9c6bf   link underline at rest
  */
 
 html {
-  background: #fdfdfb;
+  background: #fcfcfa;
   color: #1a1a1a;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
-    sans-serif;
-  font-size: 17px;
-  line-height: 1.6;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1.0625rem; /* 17px */
+  line-height: 1.65;
   margin: 0;
   padding: 0;
   font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Body container. 65ch is the sweet spot for prose readability without
- * feeling cramped. */
+/* One column, comfortable measure, generous top/bottom air. */
 .wrap {
-  max-width: 65ch;
+  max-width: 60ch;
   margin: 0 auto;
-  padding: 2.5rem 1.25rem 4rem;
+  padding: 3.5rem 1.25rem 5rem;
 }
 
-/* Headings: weights drop with depth. Not all bold. Tighter top-margin under
- * page H1, more breath before H2/H3 so sections feel earned. */
+/* Type scale. Page title is the only large element; section heads earn their
+ * weight through spacing, not size. */
 h1 {
-  font-size: 1.6rem;
+  font-size: 1.7rem;
   font-weight: 600;
-  line-height: 1.25;
-  margin: 0 0 0.35rem;
-  letter-spacing: -0.005em;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  margin: 0 0 0.5rem;
 }
+
+/* h2 = programme. A real heading with a hairline beneath, lots of air above. */
 h2 {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.3;
-  margin: 2rem 0 0.4rem;
+  letter-spacing: -0.01em;
+  margin: 2.75rem 0 0;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #e3e1dc;
 }
+
+/* h3 = stage / content-block label. Quiet uppercase kicker, not a big title. */
 h3 {
-  font-size: 1rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  margin: 1.5rem 0 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #6b6b69;
+  margin: 1.6rem 0 0.5rem;
 }
 
 p {
-  margin: 0.6rem 0;
+  margin: 0.7rem 0;
+  max-width: 62ch;
+}
+
+/* On the detail page, submitted answers can be long; keep them readable. */
+p[style*="pre-wrap"] {
+  margin-top: 0.25rem;
 }
 
 ul,
 ol {
-  margin: 0.6rem 0;
-  padding-left: 1.5rem;
+  margin: 0.6rem 0 0.9rem;
+  padding-left: 1.25rem;
 }
 li {
-  margin: 0.2rem 0;
+  margin: 0.4rem 0;
+  line-height: 1.55;
 }
 li > p {
   margin: 0.2rem 0;
@@ -70,21 +96,21 @@ li > p {
 
 hr {
   border: 0;
-  border-top: 1px solid #d4d4d2;
-  margin: 2rem 0;
+  border-top: 1px solid #e3e1dc;
+  margin: 2.25rem 0;
 }
 
-/* Links: default browser colours, underlined. Subtle hover to acknowledge
- * the cursor without being designed. */
+/* Typeset links: body colour, thin offset underline. The composed look. */
 a {
-  color: -webkit-link;
-  transition: opacity 0.1s;
-}
-a:visited {
-  color: -webkit-link;
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: #c9c6bf;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.12s;
 }
 a:hover {
-  opacity: 0.7;
+  text-decoration-color: currentColor;
 }
 a:focus-visible {
   outline: 2px solid currentColor;
@@ -92,8 +118,8 @@ a:focus-visible {
   border-radius: 1px;
 }
 
-/* Forms: still recognisably default, but with comfortable padding and a
- * visible border so they don't look broken on every OS. */
+/* Forms: recognisably plain, but with a comfortable ruled underline rather
+ * than a box — reads as a form field in a document, not a widget. */
 input,
 button,
 select,
@@ -105,72 +131,84 @@ textarea {
 input[type="email"],
 input[type="text"],
 textarea {
-  padding: 0.4rem 0.55rem;
-  border: 1px solid #b8b8b6;
-  background: #fff;
+  padding: 0.4rem 0.1rem;
+  border: 0;
+  border-bottom: 1px solid #a8a59d;
+  background: transparent;
   border-radius: 0;
+  min-width: 18rem;
+  max-width: 100%;
 }
 input[type="email"]:focus,
 input[type="text"]:focus,
 textarea:focus {
-  outline: 2px solid #1a1a1a;
-  outline-offset: -1px;
-  border-color: #1a1a1a;
+  outline: none;
+  border-bottom: 2px solid #1a1a1a;
+}
+input::placeholder {
+  color: #a8a59d;
 }
 button {
-  padding: 0.4rem 0.85rem;
+  padding: 0.45rem 1rem;
   border: 1px solid #1a1a1a;
   background: #1a1a1a;
-  color: #fdfdfb;
+  color: #fcfcfa;
   border-radius: 0;
   cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.12s;
 }
 button:hover {
-  opacity: 0.85;
+  opacity: 0.82;
 }
 button:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
 }
 button[disabled] {
-  opacity: 0.55;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
+/* Inline definition list on the detail page (Stream / Decision / dates). */
 dl {
-  margin: 0.5rem 0;
+  margin: 0.75rem 0;
 }
 dl.inline div {
-  margin: 0.2rem 0;
+  margin: 0.25rem 0;
+  color: #1a1a1a;
 }
 dl.inline strong {
   font-weight: 600;
+  color: #6b6b69;
+  font-size: 0.9rem;
+  margin-right: 0.35rem;
 }
 
 code {
   font-family: ui-monospace, Menlo, Consolas, monospace;
-  font-size: 0.95em;
-  background: rgba(0, 0, 0, 0.04);
-  padding: 0.05em 0.3em;
+  font-size: 0.92em;
+  background: rgba(0, 0, 0, 0.045);
+  padding: 0.05em 0.32em;
   border-radius: 2px;
 }
 
-/* Decision tag: bracketed monospace-ish marker. Sentence case, not SHOUTING.
- * Subtle colour shift for terminal states. */
+/* Decision tag: a quiet label, not an alert. Desaturated, no brackets shouting.
+ * The bracket marks stay for the typed-terminal flavour, just calmer colour. */
 .tag {
-  font-family: ui-monospace, Menlo, Consolas, monospace;
-  font-size: 0.85em;
+  font-size: 0.92em;
+  font-weight: 500;
   white-space: nowrap;
 }
-.tag-accept { color: #1f6e2f; }
-.tag-reject { color: #8a1f1f; }
-.tag-waitlist { color: #8a5a1f; }
+.tag-accept { color: #2f7d3f; }
+.tag-reject { color: #9a3b3b; }
+.tag-waitlist { color: #8a6a2a; }
 .tag-pending { color: #6b6b69; }
 
 footer.page {
-  margin-top: 3rem;
-  padding-top: 1rem;
-  border-top: 1px solid #ececea;
+  margin-top: 3.5rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid #e3e1dc;
   font-size: 0.85rem;
   color: #6b6b69;
 }
@@ -178,71 +216,85 @@ footer.page a {
   color: #6b6b69;
 }
 
-/* Sign-out: a real button that looks like a link, no inline-style hacks. */
+/* Sign-out rendered as a link inside a form, no inline-style hack. */
 .linkish {
   background: none;
   border: 0;
   padding: 0;
-  color: -webkit-link;
+  color: inherit;
   text-decoration: underline;
+  text-decoration-color: #c9c6bf;
+  text-underline-offset: 2px;
   cursor: pointer;
   font: inherit;
-  transition: opacity 0.1s;
+  transition: text-decoration-color 0.12s;
 }
 .linkish:hover {
-  opacity: 0.7;
+  text-decoration-color: currentColor;
 }
 
-/* Subtle selection colour, considered choice instead of system default. */
 ::selection {
   background: #1a1a1a;
-  color: #fdfdfb;
+  color: #fcfcfa;
 }
 
-/* Dark mode: not pure black on pure white. Easier on the eyes at night,
- * still uncompromisingly minimal. */
+/* Dark mode: warm dark, not pure black. Same restraint. */
 @media (prefers-color-scheme: dark) {
   html {
-    background: #0d0d0d;
-    color: #e8e8e6;
+    background: #14140f;
+    color: #e8e6df;
+  }
+  h2 {
+    border-bottom-color: #2c2c26;
+  }
+  h3 {
+    color: #999;
   }
   hr {
-    border-top-color: #2a2a28;
+    border-top-color: #2c2c26;
   }
-  footer.page {
-    color: #888;
-    border-top-color: #2a2a28;
+  a {
+    text-decoration-color: #4a4940;
   }
-  footer.page a {
-    color: #888;
+  .linkish {
+    text-decoration-color: #4a4940;
   }
   input[type="email"],
   input[type="text"],
   textarea {
-    background: #1a1a1a;
-    border-color: #3a3a38;
-    color: #e8e8e6;
+    border-bottom-color: #4a4940;
+    color: #e8e6df;
   }
   input[type="email"]:focus,
   input[type="text"]:focus,
   textarea:focus {
-    outline-color: #e8e8e6;
-    border-color: #e8e8e6;
+    border-bottom-color: #e8e6df;
+  }
+  input::placeholder {
+    color: #5a5950;
   }
   button {
-    background: #e8e8e6;
-    color: #0d0d0d;
-    border-color: #e8e8e6;
+    background: #e8e6df;
+    color: #14140f;
+    border-color: #e8e6df;
   }
   code {
     background: rgba(255, 255, 255, 0.08);
   }
-  .tag-accept { color: #6bc77d; }
-  .tag-reject { color: #d97676; }
-  .tag-waitlist { color: #d4a64f; }
-  .tag-pending { color: #888; }
+  dl.inline strong {
+    color: #999;
+  }
+  .tag-accept { color: #74c483; }
+  .tag-reject { color: #d98a8a; }
+  .tag-waitlist { color: #d4ad5f; }
+  .tag-pending { color: #999; }
+  footer.page,
+  footer.page a {
+    color: #999;
+    border-top-color: #2c2c26;
+  }
   ::selection {
-    background: #e8e8e6;
-    color: #0d0d0d;
+    background: #e8e6df;
+    color: #14140f;
   }
 }
