@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const metadata = {
   title: "Privacy – CAISH Applications",
 };
@@ -82,7 +84,7 @@ export default function PrivacyPage() {
       </p>
 
       <footer className="page">
-        <a href="/">Home</a>
+        <Link href="/">Home</Link>
       </footer>
     </main>
   );

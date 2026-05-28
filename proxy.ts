@@ -5,7 +5,7 @@ import { authConfig } from "@/lib/auth.config";
 // inside authConfig handles the redirect logic for /dashboard.
 export const { auth: middleware } = NextAuth(authConfig);
 
-export default middleware((req) => {
+export default middleware(() => {
   // The `authorized` callback in authConfig returns the redirect Response
   // when needed. If we get here as a callback handler, just let the request
   // through.

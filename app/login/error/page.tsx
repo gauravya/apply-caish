@@ -51,7 +51,7 @@ export default async function ErrorPage({
       </p>
 
       <footer className="page">
-        <a href="/">Home</a> &middot; <a href="/privacy">Privacy</a>
+        <Link href="/">Home</Link> &middot; <Link href="/privacy">Privacy</Link>
       </footer>
     </main>
   );

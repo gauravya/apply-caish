@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const metadata = {
   title: "Check your email – CAISH Applications",
 };
@@ -15,7 +17,8 @@ export default function CheckEmailPage() {
       </p>
 
       <footer className="page">
-        <a href="/">Home</a> &middot; <a href="/login">Back to sign in</a>
+        <Link href="/">Home</Link> &middot;{" "}
+        <Link href="/login">Back to sign in</Link>
       </footer>
     </main>
   );

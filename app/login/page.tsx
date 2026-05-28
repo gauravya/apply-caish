@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { signIn } from "@/lib/auth";
@@ -77,7 +78,7 @@ export default async function LoginPage({
       </p>
 
       <footer className="page">
-        <a href="/">Home</a> &middot; <a href="/privacy">Privacy</a>
+        <Link href="/">Home</Link> &middot; <Link href="/privacy">Privacy</Link>
       </footer>
     </main>
   );
