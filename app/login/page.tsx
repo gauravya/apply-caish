@@ -44,42 +44,46 @@ export default async function LoginPage({
 }) {
   const { error } = await searchParams;
   return (
-    <main className="wrap">
-      <h1>Sign in</h1>
-      <p>
-        Enter the email you applied with. We will send you a link to sign in.
-      </p>
-
-      {error === "invalid" ? (
-        <p>Error: please enter a valid email address.</p>
-      ) : null}
-
-      <form action={loginAction}>
+    <main className="retro">
+      <div className="box">
+        <h1>
+          <span className="big">SIGN IN</span>
+        </h1>
         <p>
-          <label htmlFor="email">Email: </label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            placeholder="you@example.com"
-            required
-            autoComplete="email"
-            size={32}
-          />
+          Enter the email you applied with. We will send you a link to sign in.
         </p>
+
+        {error === "invalid" ? (
+          <p>Error: please enter a valid email address.</p>
+        ) : null}
+
+        <form action={loginAction}>
+          <p>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              required
+              autoComplete="email"
+              aria-label="Email"
+            />
+          </p>
+          <p>
+            <SubmitButton label="Send sign-in link" />
+          </p>
+        </form>
+
         <p>
-          <SubmitButton label="Send sign-in link" />
+          The link is valid for 15 minutes. Check your spam folder if you do
+          not see it.
         </p>
-      </form>
 
-      <p>
-        The link will arrive in your inbox and is valid for 15 minutes. Check
-        your spam folder if you do not see it.
-      </p>
-
-      <footer className="page">
-        <Link href="/">Home</Link> &middot; <Link href="/privacy">Privacy</Link>
-      </footer>
+        <footer className="retro-foot">
+          <Link href="/">Home</Link> &middot;{" "}
+          <Link href="/privacy">Privacy</Link>
+        </footer>
+      </div>
     </main>
   );
 }

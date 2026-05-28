@@ -1,5 +1,22 @@
 import type { Metadata } from "next";
+import { Press_Start_2P, VT323 } from "next/font/google";
 import "./globals.css";
+
+// Retro pixel display face for the public pages' titles.
+const pixel = Press_Start_2P({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-pixel",
+  display: "swap",
+});
+
+// Terminal face for retro body text / buttons.
+const terminal = VT323({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-terminal",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -26,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${pixel.variable} ${terminal.variable}`}>
       <body>{children}</body>
     </html>
   );

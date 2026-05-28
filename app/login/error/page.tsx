@@ -32,27 +32,25 @@ export default async function ErrorPage({
   };
 
   return (
-    <main className="wrap">
-      <h1>{message.title}</h1>
-      <p>{message.body}</p>
-
-      <p>
-        <Link href="/login">Request a new sign-in link</Link>
-      </p>
-
-      <hr />
-
-      <p>
-        Still stuck? Email{" "}
-        <a href="mailto:hello@cambridgeaisafety.org">
-          hello@cambridgeaisafety.org
-        </a>
-        .
-      </p>
-
-      <footer className="page">
-        <Link href="/">Home</Link> &middot; <Link href="/privacy">Privacy</Link>
-      </footer>
+    <main className="retro">
+      <div className="box">
+        <h1>
+          <span className="big">ERROR</span>
+        </h1>
+        <p>{message.title}.</p>
+        <p>{message.body}</p>
+        <p>
+          <Link href="/login" className="key">
+            New sign-in link
+          </Link>
+        </p>
+        <footer className="retro-foot">
+          Still stuck? Email{" "}
+          <a href="mailto:hello@cambridgeaisafety.org">
+            hello@cambridgeaisafety.org
+          </a>
+        </footer>
+      </div>
     </main>
   );
 }

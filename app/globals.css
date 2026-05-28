@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
-/* Anti-website, composed.
+/* ───────────────────────────────────────────────────────────────────────────
+ * CAISH Applications — retro terminal aesthetic, applied throughout.
  *
- * Still simple semantic HTML that a 1996 browser renders fine. The polish is
- * entirely typographic: a real type scale, typeset links (not browser-blue),
- * comfortable measure, consistent vertical rhythm, and a calm palette. No
- * component libraries, no decoration — just a well-set document.
+ * Press Start 2P (pixel) for page titles, VT323 (terminal) for everything else.
+ * Two container shapes share the look:
+ *   .retro     centred terminal window — public pages (landing/login/etc.)
+ *   .wrap      left-aligned terminal window — content pages (dashboard/detail/
+ *              privacy). Data stays left-aligned and readable; only the chrome
+ *              is retro.
  *
- * Palette tokens (kept inline; one file, easy to scan):
- *   ink      #1a1a1a   body text
- *   paper    #fcfcfa   background
- *   muted    #6b6b69   secondary text, captions
- *   rule     #e3e1dc   hairlines
- *   link u/l #c9c6bf   link underline at rest
- */
+ * Palette (inline tokens, one file):
+ *   ink    #1a1a1a   paper #fcfcfa   muted #6b6b69   rule/border #1a1a1a
+ *   dark:  ink #e8e6df  paper #14140f
+ * ───────────────────────────────────────────────────────────────────────── */
 
 html {
   background: #fcfcfa;
@@ -21,74 +21,92 @@ html {
 }
 
 body {
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 1.0625rem; /* 17px */
-  line-height: 1.65;
+  font-family: var(--font-terminal), ui-monospace, "Courier New", monospace;
+  font-size: 1.25rem; /* VT323 reads small per glyph; size up */
+  line-height: 1.35;
   margin: 0;
   padding: 0;
   font-variant-numeric: tabular-nums;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
 }
 
-/* One column, comfortable measure, generous top/bottom air. */
+/* ── Containers ──────────────────────────────────────────────────────────── */
+
+/* Content pages: a left-aligned terminal window. */
 .wrap {
-  max-width: 60ch;
-  margin: 0 auto;
-  padding: 3.5rem 1.25rem 5rem;
+  max-width: 64ch;
+  margin: 2.5rem auto 4rem;
+  border: 2px solid #1a1a1a;
+  box-shadow: 7px 7px 0 #1a1a1a;
+  background: #fcfcfa;
+  padding: 2.25rem 2rem 2.5rem;
 }
 
-/* Type scale. Page title is the only large element; section heads earn their
- * weight through spacing, not size. */
+/* Public pages: a centred terminal window. */
+.retro {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.25rem;
+}
+.retro .box {
+  border: 2px solid #1a1a1a;
+  box-shadow: 7px 7px 0 #1a1a1a;
+  background: #fcfcfa;
+  padding: 2.75rem 2rem;
+  width: 100%;
+  max-width: 34rem;
+}
+
+/* ── Headings ────────────────────────────────────────────────────────────── */
+
+/* Page title: pixel font. Wide per glyph, so kept small. */
 h1 {
-  font-size: 1.7rem;
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.015em;
-  margin: 0 0 0.5rem;
+  font-family: var(--font-pixel), ui-monospace, monospace;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.6;
+  letter-spacing: 0;
+  margin: 0 0 1.25rem;
 }
 
-/* h2 = programme. A real heading with a hairline beneath, lots of air above. */
+/* h2 = section / programme. Terminal font, uppercase, ruled underline. */
 h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  margin: 2.75rem 0 0;
-  padding-bottom: 0.4rem;
-  border-bottom: 1px solid #e3e1dc;
+  font-size: 1.6rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  margin: 2.25rem 0 0.6rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid #1a1a1a;
 }
 
-/* h3 = stage / content-block label. Quiet uppercase kicker, not a big title. */
+/* h3 = stage / content-block label. Quiet uppercase kicker. */
 h3 {
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.12em;
   color: #6b6b69;
-  margin: 1.6rem 0 0.5rem;
+  margin: 1.5rem 0 0.4rem;
 }
+
+/* ── Text & flow ─────────────────────────────────────────────────────────── */
 
 p {
-  margin: 0.7rem 0;
-  max-width: 62ch;
+  margin: 0.6rem 0;
 }
-
-/* On the detail page, submitted answers can be long; keep them readable. */
-p[style*="pre-wrap"] {
-  margin-top: 0.25rem;
-}
-
 ul,
 ol {
-  margin: 0.6rem 0 0.9rem;
-  padding-left: 1.25rem;
+  margin: 0.5rem 0 0.9rem;
+  padding-left: 1.4rem;
 }
 li {
-  margin: 0.4rem 0;
-  line-height: 1.55;
+  margin: 0.5rem 0;
+  line-height: 1.4;
 }
 li > p {
   margin: 0.2rem 0;
@@ -96,17 +114,17 @@ li > p {
 
 hr {
   border: 0;
-  border-top: 1px solid #e3e1dc;
-  margin: 2.25rem 0;
+  border-top: 2px solid #1a1a1a;
+  margin: 1.75rem 0;
 }
 
-/* Typeset links: body colour, thin offset underline. The composed look. */
+/* ── Links ───────────────────────────────────────────────────────────────── */
 a {
   color: inherit;
   text-decoration: underline;
-  text-decoration-color: #c9c6bf;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
+  text-decoration-color: #a8a59d;
   transition: text-decoration-color 0.12s;
 }
 a:hover {
@@ -115,51 +133,55 @@ a:hover {
 a:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 3px;
-  border-radius: 1px;
 }
 
-/* Forms: recognisably plain, but with a comfortable ruled underline rather
- * than a box — reads as a form field in a document, not a widget. */
+/* ── Forms ───────────────────────────────────────────────────────────────── */
 input,
 button,
 select,
 textarea {
-  font-family: inherit;
-  font-size: 1rem;
-  line-height: 1.4;
+  font-family: var(--font-terminal), ui-monospace, monospace;
+  font-size: 1.25rem;
+  line-height: 1.3;
 }
 input[type="email"],
 input[type="text"],
 textarea {
-  padding: 0.4rem 0.1rem;
   border: 0;
-  border-bottom: 1px solid #a8a59d;
+  border-bottom: 2px solid #1a1a1a;
   background: transparent;
   border-radius: 0;
-  min-width: 18rem;
+  padding: 0.3rem 0.2rem;
+  min-width: 16rem;
   max-width: 100%;
 }
 input[type="email"]:focus,
 input[type="text"]:focus,
 textarea:focus {
   outline: none;
-  border-bottom: 2px solid #1a1a1a;
+  border-bottom-width: 3px;
 }
 input::placeholder {
   color: #a8a59d;
 }
 button {
-  padding: 0.45rem 1rem;
-  border: 1px solid #1a1a1a;
+  border: 2px solid #1a1a1a;
   background: #1a1a1a;
   color: #fcfcfa;
   border-radius: 0;
+  padding: 0.35rem 1.2rem;
+  box-shadow: 3px 3px 0 #1a1a1a;
   cursor: pointer;
   text-decoration: none;
-  transition: opacity 0.12s;
+  transition: transform 0.06s, box-shadow 0.06s;
 }
-button:hover {
-  opacity: 0.82;
+button:hover:not([disabled]) {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 #1a1a1a;
+}
+button:active:not([disabled]) {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 #1a1a1a;
 }
 button:focus-visible {
   outline: 2px solid currentColor;
@@ -170,34 +192,30 @@ button[disabled] {
   cursor: not-allowed;
 }
 
-/* Inline definition list on the detail page (Stream / Decision / dates). */
+/* ── Definition list (detail page meta) ──────────────────────────────────── */
 dl {
-  margin: 0.75rem 0;
+  margin: 0.6rem 0;
 }
 dl.inline div {
-  margin: 0.25rem 0;
-  color: #1a1a1a;
+  margin: 0.2rem 0;
 }
 dl.inline strong {
-  font-weight: 600;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: #6b6b69;
-  font-size: 0.9rem;
-  margin-right: 0.35rem;
+  margin-right: 0.4rem;
 }
 
 code {
   font-family: ui-monospace, Menlo, Consolas, monospace;
-  font-size: 0.92em;
-  background: rgba(0, 0, 0, 0.045);
+  font-size: 0.85em;
+  background: rgba(0, 0, 0, 0.06);
   padding: 0.05em 0.32em;
-  border-radius: 2px;
 }
 
-/* Decision tag: a quiet label, not an alert. Desaturated, no brackets shouting.
- * The bracket marks stay for the typed-terminal flavour, just calmer colour. */
+/* ── Decision tags ───────────────────────────────────────────────────────── */
 .tag {
-  font-size: 0.92em;
-  font-weight: 500;
   white-space: nowrap;
 }
 .tag-accept { color: #2f7d3f; }
@@ -205,29 +223,29 @@ code {
 .tag-waitlist { color: #8a6a2a; }
 .tag-pending { color: #6b6b69; }
 
+/* ── Footers ─────────────────────────────────────────────────────────────── */
 footer.page {
-  margin-top: 3.5rem;
-  padding-top: 1.1rem;
-  border-top: 1px solid #e3e1dc;
-  font-size: 0.85rem;
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 2px solid #1a1a1a;
+  font-size: 1.05rem;
   color: #6b6b69;
 }
 footer.page a {
   color: #6b6b69;
 }
 
-/* Sign-out rendered as a link inside a form, no inline-style hack. */
+/* Sign-out as a link inside a form. */
 .linkish {
   background: none;
   border: 0;
   padding: 0;
   color: inherit;
+  font: inherit;
   text-decoration: underline;
-  text-decoration-color: #c9c6bf;
+  text-decoration-color: #a8a59d;
   text-underline-offset: 2px;
   cursor: pointer;
-  font: inherit;
-  transition: text-decoration-color 0.12s;
 }
 .linkish:hover {
   text-decoration-color: currentColor;
@@ -238,37 +256,107 @@ footer.page a {
   color: #fcfcfa;
 }
 
-/* Dark mode: warm dark, not pure black. Same restraint. */
+/* ── Retro public-page specifics ─────────────────────────────────────────── */
+.retro h1 {
+  margin: 0 0 1.5rem;
+}
+.retro h1 .big {
+  display: block;
+  font-size: 2rem;
+  line-height: 1.4;
+}
+.retro h1 .small {
+  display: block;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin-top: 0.9rem;
+  color: #3a3a38;
+}
+.retro p {
+  margin: 0.6rem auto;
+  max-width: 30rem;
+  font-size: 1.35rem;
+  line-height: 1.25;
+}
+.retro form {
+  margin: 1.75rem 0 1.25rem;
+}
+.retro input[type="email"],
+.retro input[type="text"] {
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+/* Blinking cursor accent. */
+.retro .cursor::after {
+  content: "_";
+  display: inline-block;
+  margin-left: 0.1em;
+  animation: retro-blink 1.1s steps(1) infinite;
+}
+@keyframes retro-blink {
+  50% { opacity: 0; }
+}
+
+/* Link styled as a chunky key (landing / error CTAs). */
+.key {
+  display: inline-block;
+  text-decoration: none;
+  border: 2px solid #1a1a1a;
+  padding: 0.3rem 1.3rem;
+  margin-top: 0.5rem;
+  box-shadow: 3px 3px 0 #1a1a1a;
+  font-size: 1.4rem;
+  transition: transform 0.06s, box-shadow 0.06s;
+}
+.key:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 #1a1a1a;
+  text-decoration: none;
+}
+
+footer.retro-foot {
+  margin-top: 1.75rem;
+  font-size: 1.1rem;
+  color: #6b6b69;
+}
+footer.retro-foot a {
+  color: #6b6b69;
+}
+
+/* ── Dark mode ───────────────────────────────────────────────────────────── */
 @media (prefers-color-scheme: dark) {
   html {
     background: #14140f;
     color: #e8e6df;
   }
-  h2 {
-    border-bottom-color: #2c2c26;
+  .wrap,
+  .retro .box {
+    border-color: #e8e6df;
+    box-shadow: 7px 7px 0 #e8e6df;
+    background: #14140f;
   }
-  h3 {
+  h2 {
+    border-bottom-color: #e8e6df;
+  }
+  h3,
+  dl.inline strong {
     color: #999;
   }
   hr {
-    border-top-color: #2c2c26;
+    border-top-color: #e8e6df;
   }
   a {
-    text-decoration-color: #4a4940;
+    text-decoration-color: #5a5950;
   }
   .linkish {
-    text-decoration-color: #4a4940;
+    text-decoration-color: #5a5950;
   }
   input[type="email"],
   input[type="text"],
   textarea {
-    border-bottom-color: #4a4940;
-    color: #e8e6df;
-  }
-  input[type="email"]:focus,
-  input[type="text"]:focus,
-  textarea:focus {
     border-bottom-color: #e8e6df;
+    color: #e8e6df;
   }
   input::placeholder {
     color: #5a5950;
@@ -277,21 +365,34 @@ footer.page a {
     background: #e8e6df;
     color: #14140f;
     border-color: #e8e6df;
+    box-shadow: 3px 3px 0 #e8e6df;
+  }
+  button:hover:not([disabled]) {
+    box-shadow: 2px 2px 0 #e8e6df;
+  }
+  .key {
+    border-color: #e8e6df;
+    box-shadow: 3px 3px 0 #e8e6df;
+  }
+  .key:hover {
+    box-shadow: 2px 2px 0 #e8e6df;
   }
   code {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.1);
   }
-  dl.inline strong {
-    color: #999;
+  .retro h1 .small {
+    color: #c9c6bf;
   }
   .tag-accept { color: #74c483; }
   .tag-reject { color: #d98a8a; }
   .tag-waitlist { color: #d4ad5f; }
   .tag-pending { color: #999; }
   footer.page,
-  footer.page a {
+  footer.page a,
+  footer.retro-foot,
+  footer.retro-foot a {
     color: #999;
-    border-top-color: #2c2c26;
+    border-top-color: #e8e6df;
   }
   ::selection {
     background: #e8e6df;
