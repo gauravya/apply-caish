@@ -70,16 +70,6 @@ export default async function ApplicationDetailPage({
       {detail.content.map((c) => (
         <ContentBlock key={c.label} label={c.label} value={c.value} />
       ))}
-
-      <hr />
-
-      <footer className="page">
-        To make changes to a submitted application, email{" "}
-        <a href="mailto:hello@cambridgeaisafety.org">
-          hello@cambridgeaisafety.org
-        </a>
-        . <Link href="/privacy">Privacy</Link>.
-      </footer>
     </main>
   );
 }

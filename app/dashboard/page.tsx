@@ -46,21 +46,19 @@ export default async function DashboardPage() {
   return (
     <main className="wrap">
       <h1>Your applications</h1>
-      <p>
-        Signed in as {email}.{" "}
+      <div className="signed-in">
+        <span>Signed in as {email}.</span>{" "}
         <form
           action={async () => {
             "use server";
             await signOut({ redirectTo: "/" });
           }}
-          style={{ display: "inline" }}
         >
           <button type="submit" className="linkish">
             Sign out
           </button>
         </form>
-        .
-      </p>
+      </div>
 
       <hr />
 

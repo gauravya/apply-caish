@@ -1,18 +1,17 @@
 @import "tailwindcss";
 
 /* ───────────────────────────────────────────────────────────────────────────
- * CAISH Applications — retro terminal aesthetic, applied throughout.
+ * CAISH Applications — retro terminal aesthetic, readable.
  *
- * Press Start 2P (pixel) for page titles, VT323 (terminal) for everything else.
- * Two container shapes share the look:
- *   .retro     centred terminal window — public pages (landing/login/etc.)
- *   .wrap      left-aligned terminal window — content pages (dashboard/detail/
- *              privacy). Data stays left-aligned and readable; only the chrome
- *              is retro.
+ * Press Start 2P (pixel) appears ONLY on public-page titles (the fun
+ * signature). Everything else is IBM Plex Mono — keeps the retro-computer
+ * feel but stays fully legible on login and data pages.
  *
- * Palette (inline tokens, one file):
- *   ink    #1a1a1a   paper #fcfcfa   muted #6b6b69   rule/border #1a1a1a
- *   dark:  ink #e8e6df  paper #14140f
+ * Chrome is retro (terminal-window boxes with hard shadows, chunky keys);
+ * interior rules are light so content reads cleanly.
+ *
+ * Palette: ink #1a1a1a · paper #fcfcfa · muted #6b6b69 · rule #c9c6bf
+ *          dark: ink #e8e6df · paper #14140f
  * ───────────────────────────────────────────────────────────────────────── */
 
 html {
@@ -21,19 +20,20 @@ html {
 }
 
 body {
-  font-family: var(--font-terminal), ui-monospace, "Courier New", monospace;
-  font-size: 1.25rem; /* VT323 reads small per glyph; size up */
-  line-height: 1.35;
+  font-family: var(--font-mono), ui-monospace, Menlo, Consolas, monospace;
+  font-size: 1.0625rem; /* 17px */
+  line-height: 1.6;
   margin: 0;
   padding: 0;
   font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ── Containers ──────────────────────────────────────────────────────────── */
 
-/* Content pages: a left-aligned terminal window. */
+/* Content pages: left-aligned terminal window. */
 .wrap {
-  max-width: 64ch;
+  max-width: 66ch;
   margin: 2.5rem auto 4rem;
   border: 2px solid #1a1a1a;
   box-shadow: 7px 7px 0 #1a1a1a;
@@ -41,7 +41,7 @@ body {
   padding: 2.25rem 2rem 2.5rem;
 }
 
-/* Public pages: a centred terminal window. */
+/* Public pages: centred terminal window. */
 .retro {
   min-height: 100dvh;
   display: flex;
@@ -62,42 +62,41 @@ body {
 
 /* ── Headings ────────────────────────────────────────────────────────────── */
 
-/* Page title: pixel font. Wide per glyph, so kept small. */
+/* Page title (content pages): readable mono, can be long. */
 h1 {
-  font-family: var(--font-pixel), ui-monospace, monospace;
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.6;
-  letter-spacing: 0;
-  margin: 0 0 1.25rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.75rem;
 }
 
-/* h2 = section / programme. Terminal font, uppercase, ruled underline. */
+/* h2 = section / programme. Uppercase, light ruled underline. */
 h2 {
-  font-size: 1.6rem;
-  font-weight: 400;
+  font-size: 1.1rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
-  margin: 2.25rem 0 0.6rem;
-  padding-bottom: 0.3rem;
-  border-bottom: 2px solid #1a1a1a;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+  margin: 2rem 0 0.6rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid #c9c6bf;
 }
 
 /* h3 = stage / content-block label. Quiet uppercase kicker. */
 h3 {
-  font-size: 1.05rem;
-  font-weight: 400;
+  font-size: 0.75rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   color: #6b6b69;
-  margin: 1.5rem 0 0.4rem;
+  margin: 1.4rem 0 0.4rem;
 }
 
 /* ── Text & flow ─────────────────────────────────────────────────────────── */
-
 p {
-  margin: 0.6rem 0;
+  margin: 0.65rem 0;
 }
 ul,
 ol {
@@ -105,17 +104,25 @@ ol {
   padding-left: 1.4rem;
 }
 li {
-  margin: 0.5rem 0;
-  line-height: 1.4;
+  margin: 0.4rem 0;
+  line-height: 1.55;
 }
 li > p {
   margin: 0.2rem 0;
 }
-
 hr {
   border: 0;
-  border-top: 2px solid #1a1a1a;
+  border-top: 1px solid #c9c6bf;
   margin: 1.75rem 0;
+}
+
+/* "Signed in as … / Sign out" line on the dashboard. */
+.signed-in {
+  color: #6b6b69;
+  font-size: 0.95rem;
+}
+.signed-in form {
+  display: inline;
 }
 
 /* ── Links ───────────────────────────────────────────────────────────────── */
@@ -140,18 +147,18 @@ input,
 button,
 select,
 textarea {
-  font-family: var(--font-terminal), ui-monospace, monospace;
-  font-size: 1.25rem;
-  line-height: 1.3;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 1.0625rem;
+  line-height: 1.4;
 }
 input[type="email"],
 input[type="text"],
 textarea {
   border: 0;
-  border-bottom: 2px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
   background: transparent;
   border-radius: 0;
-  padding: 0.3rem 0.2rem;
+  padding: 0.4rem 0.2rem;
   min-width: 16rem;
   max-width: 100%;
 }
@@ -159,7 +166,7 @@ input[type="email"]:focus,
 input[type="text"]:focus,
 textarea:focus {
   outline: none;
-  border-bottom-width: 3px;
+  border-bottom-width: 2px;
 }
 input::placeholder {
   color: #a8a59d;
@@ -169,7 +176,7 @@ button {
   background: #1a1a1a;
   color: #fcfcfa;
   border-radius: 0;
-  padding: 0.35rem 1.2rem;
+  padding: 0.4rem 1.2rem;
   box-shadow: 3px 3px 0 #1a1a1a;
   cursor: pointer;
   text-decoration: none;
@@ -197,19 +204,20 @@ dl {
   margin: 0.6rem 0;
 }
 dl.inline div {
-  margin: 0.2rem 0;
+  margin: 0.25rem 0;
 }
 dl.inline strong {
-  font-weight: 400;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
+  font-size: 0.78rem;
   color: #6b6b69;
   margin-right: 0.4rem;
 }
 
 code {
-  font-family: ui-monospace, Menlo, Consolas, monospace;
-  font-size: 0.85em;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.9em;
   background: rgba(0, 0, 0, 0.06);
   padding: 0.05em 0.32em;
 }
@@ -217,6 +225,7 @@ code {
 /* ── Decision tags ───────────────────────────────────────────────────────── */
 .tag {
   white-space: nowrap;
+  font-weight: 600;
 }
 .tag-accept { color: #2f7d3f; }
 .tag-reject { color: #9a3b3b; }
@@ -227,8 +236,8 @@ code {
 footer.page {
   margin-top: 2.5rem;
   padding-top: 1rem;
-  border-top: 2px solid #1a1a1a;
-  font-size: 1.05rem;
+  border-top: 1px solid #c9c6bf;
+  font-size: 0.85rem;
   color: #6b6b69;
 }
 footer.page a {
@@ -246,9 +255,12 @@ footer.page a {
   text-decoration-color: #a8a59d;
   text-underline-offset: 2px;
   cursor: pointer;
+  box-shadow: none;
 }
 .linkish:hover {
   text-decoration-color: currentColor;
+  transform: none;
+  box-shadow: none;
 }
 
 ::selection {
@@ -256,18 +268,24 @@ footer.page a {
   color: #fcfcfa;
 }
 
-/* ── Retro public-page specifics ─────────────────────────────────────────── */
+/* ── Public-page (.retro) specifics ──────────────────────────────────────── */
+
+/* The pixel signature — public titles only. */
 .retro h1 {
+  font-family: var(--font-pixel), ui-monospace, monospace;
+  font-weight: 400;
+  font-size: 1rem;
   margin: 0 0 1.5rem;
+  letter-spacing: 0;
 }
 .retro h1 .big {
   display: block;
-  font-size: 2rem;
-  line-height: 1.4;
+  font-size: 1.75rem;
+  line-height: 1.5;
 }
 .retro h1 .small {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   line-height: 1.6;
   margin-top: 0.9rem;
   color: #3a3a38;
@@ -275,8 +293,8 @@ footer.page a {
 .retro p {
   margin: 0.6rem auto;
   max-width: 30rem;
-  font-size: 1.35rem;
-  line-height: 1.25;
+  font-size: 1.0625rem;
+  line-height: 1.55;
 }
 .retro form {
   margin: 1.75rem 0 1.25rem;
@@ -284,10 +302,10 @@ footer.page a {
 .retro input[type="email"],
 .retro input[type="text"] {
   text-align: center;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
 }
 
-/* Blinking cursor accent. */
+/* Blinking cursor accent on the pixel title. */
 .retro .cursor::after {
   content: "_";
   display: inline-block;
@@ -298,15 +316,15 @@ footer.page a {
   50% { opacity: 0; }
 }
 
-/* Link styled as a chunky key (landing / error CTAs). */
+/* Chunky key (landing / error CTAs). */
 .key {
   display: inline-block;
   text-decoration: none;
   border: 2px solid #1a1a1a;
-  padding: 0.3rem 1.3rem;
+  padding: 0.4rem 1.3rem;
   margin-top: 0.5rem;
   box-shadow: 3px 3px 0 #1a1a1a;
-  font-size: 1.4rem;
+  font-size: 1.05rem;
   transition: transform 0.06s, box-shadow 0.06s;
 }
 .key:hover {
@@ -317,7 +335,7 @@ footer.page a {
 
 footer.retro-foot {
   margin-top: 1.75rem;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   color: #6b6b69;
 }
 footer.retro-foot a {
@@ -337,18 +355,18 @@ footer.retro-foot a {
     background: #14140f;
   }
   h2 {
-    border-bottom-color: #e8e6df;
+    border-bottom-color: #3c3c34;
   }
   h3,
-  dl.inline strong {
+  dl.inline strong,
+  .signed-in {
     color: #999;
   }
-  hr {
-    border-top-color: #e8e6df;
+  hr,
+  footer.page {
+    border-top-color: #3c3c34;
   }
-  a {
-    text-decoration-color: #5a5950;
-  }
+  a,
   .linkish {
     text-decoration-color: #5a5950;
   }
@@ -392,7 +410,6 @@ footer.retro-foot a {
   footer.retro-foot,
   footer.retro-foot a {
     color: #999;
-    border-top-color: #e8e6df;
   }
   ::selection {
     background: #e8e6df;

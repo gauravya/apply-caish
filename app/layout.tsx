@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Press_Start_2P, VT323 } from "next/font/google";
+import { Press_Start_2P, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-// Retro pixel display face for the public pages' titles.
+// Retro pixel display face — public-page titles only (the fun signature).
 const pixel = Press_Start_2P({
   weight: "400",
   subsets: ["latin"],
@@ -10,11 +10,12 @@ const pixel = Press_Start_2P({
   display: "swap",
 });
 
-// Terminal face for retro body text / buttons.
-const terminal = VT323({
-  weight: "400",
+// Readable monospace for all body text — keeps the retro-computer feel
+// without VT323's legibility cost on login and data pages.
+const mono = IBM_Plex_Mono({
+  weight: ["400", "500", "600"],
   subsets: ["latin"],
-  variable: "--font-terminal",
+  variable: "--font-mono",
   display: "swap",
 });
 
@@ -43,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${pixel.variable} ${terminal.variable}`}>
+    <html lang="en" className={`${pixel.variable} ${mono.variable}`}>
       <body>{children}</body>
     </html>
   );
